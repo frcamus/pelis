@@ -78,5 +78,9 @@ class HomeController < ApplicationController
     
     redirect_to home_path
   end
+
+  def metodo_local
+    @var = "VARIABLE LOCAL"
+  end
   
 end
