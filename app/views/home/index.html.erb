@@ -1,0 +1,57 @@
+
+  <a href='<%= get_form_path %>' class='btn btn-success '>Agendar Arriendo</a>
+
+    <% if @arriendos[0]==nil %>
+      <div class="alert alert-success">
+        <center><strong>No hay registros</strong> </center>
+      </div>
+    <% else %>
+     <h3>Arriendos actuales: </h3>
+    
+     <table class="table table-hover table-dark">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Email</th>
+                <th scope="col">Productos</th>
+                <th scope="col">opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%  @arriendos.each do |item| %>
+              <tr class="">
+                <th scope="row"><%= item.u_id %></th>
+                <td><%= item.u_nombre %></td>
+                <td><%= item.u_email %></td>
+                <td>
+                  <% @movie = Arriendo.select('movies.titulo')
+                  .joins(:movie)
+                  .where(:user_id => item.u_id) %>
+                  
+                    <%  @movie.each do |pelicula| %>
+                      |<%= pelicula.titulo %>|
+                    <% end %> 
+                  
+                  <% @serie = Arriendo.select('series.titulo')
+                  .joins(:serie)
+                  .where(:user_id => item.u_id) %>
+                  
+                    <%  @serie.each do |serie| %>
+                      |<%= serie.titulo %> |
+                    <% end %> 
+                </td>
+                <td>
+                	
+				  <%= link_to "Editar ", {:controller => "home", :action => "editar", :id => item.u_id }, class: "btn btn-primary" %>
+                  <%= link_to "Borrar", "/borrar/#{item.u_id}", class: "btn btn-danger" %>
+                </td>
+              </tr>
+              <% end %>
+              
+            </tbody>
+      </table>
+      
+  
+    <% end %>
+    
