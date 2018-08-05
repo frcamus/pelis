@@ -1,4 +1,5 @@
 class HomeController < ApplicationController
+  
   def index
 
     @arriendos = User.select('users.id u_id','users.nombre u_nombre','users.email u_email')
@@ -21,14 +22,26 @@ class HomeController < ApplicationController
     end
   end
   
-  def guardar
-    get_nombre = params[:usuario]['nombre']
-    get_email = params[:usuario]['email']
+  def grabar
+    @id_user = params[:id]
     
-    @user = User.create(id: User.ultimo , nombre: get_nombre, email: get_email)
+
+    if @id_user!=nil && @id_user!=""
+      @user = User.find_by(id: @id_user)
+      @user.nombre = params[:usuario]['nombre']
+      @user.email = params[:usuario]['email']
+      @user.save
+
+      Arriendo.where(user_id: @id_user).destroy_all
+    else
+      get_nombre = params[:usuario]['nombre']
+      get_email = params[:usuario]['email']
+      
+      @user = User.create(id: User.ultimo , nombre: get_nombre, email: get_email)
     
+    end
+  
     crear_arriendos(@user,params[:movie],params[:serie])
-    
     redirect_to home_path
   end
   
@@ -42,6 +55,7 @@ class HomeController < ApplicationController
   def editar
     @series = Serie.all
     @peliculas = Movie.all
+
     @editar = User.select('users.id u_id','users.nombre u_nombre','users.email u_email').find_by(id: params[:id])
 
     @get_movies = Arriendo.select('movies.id','movies.titulo')
@@ -64,21 +78,7 @@ class HomeController < ApplicationController
      @array_series.push(array.id)
     end
 
-  end
-  
-  def grabar
-    @get_user = User.find_by(id: params[:id])
-    @get_user.nombre = params[:usuario]['nombre']
-    @get_user.email = params[:usuario]['email']
-    @get_user.save
-    
-    Arriendo.where(user_id: params[:id]).destroy_all
 
-    crear_arriendos(@get_user,params[:movie],params[:serie])
-    
-    redirect_to home_path
   end
-
  
-  
 end

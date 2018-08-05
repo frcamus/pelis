@@ -1,23 +1,18 @@
 Rails.application.routes.draw do
   root 'home#index'
   
+  #inicio
   get "home" => "home#index"
   
-  #agregar
-  get 'home/agregar'
-  
   #ir a formulario
-  get "get_form" => "home#formulario"
-  
-  #crear
-  post "guardar" => "home#guardar"
-  
-  get "borrar/:id" => "home#borrar"
+  get "home/formulario" 
  
-  #editar
+  #agregar y editar
   get "editar/:id" => "home#editar"
-  
   post "grabar" => "home#grabar"
+
+  #borrar
+  get "borrar/:id" => "home#borrar"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

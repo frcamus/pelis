@@ -1,5 +1,5 @@
 
-  <a href='<%= get_form_path %>' class='btn btn-success '>Agendar Arriendo</a>
+  <%= link_to "Agendar Arriendo ", "/editar/new", class: "btn btn-success" %>
 
     <% if @arriendos[0]==nil %>
       <div class="alert alert-success">
@@ -43,8 +43,8 @@
                 </td>
                 <td>
                 	
-				  <%= link_to "Editar ", {:controller => "home", :action => "editar", :id => item.u_id }, class: "btn btn-primary" %>
                   <%= link_to "Borrar", "/borrar/#{item.u_id}", class: "btn btn-danger" %>
+                  <%= link_to "Editar ", "/editar/#{item.u_id}", class: "btn btn-primary" %>
                 </td>
               </tr>
               <% end %>
